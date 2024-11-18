@@ -5,6 +5,7 @@
 
 #include <functional>
 #include <unordered_set>
+#include <stack>
 
 class Sheet;
 
@@ -27,10 +28,18 @@ private:
     class EmptyImpl;
     class TextImpl;
     class FormulaImpl;
-
+    
     std::unique_ptr<Impl> impl_;
-
-    // Добавьте поля и методы для связи с таблицей, проверки циклических 
-    // зависимостей, графа зависимостей и т. д.
-
+    
+    bool CheckCyclicDependency(const Impl& new_impl) const; // Проверка цикличности
+    void UpdateDependencies(bool force = false);            // Обновление зависимостей
+    void UpdateReferences(std::unique_ptr<Impl> new_impl);    
+    
+    bool HasCycle(const std::unordered_set<const Cell*>& referenced, 
+                  std::unordered_set<const Cell*>& visited, 
+                  std::stack<const Cell*>& to_visit) const;    
+    
+    Sheet& sheet_;                                          // Ссылка на таблицу
+    std::unordered_set<Cell*> dependent_сells_;             // Зависимые ячейки
+    std::unordered_set<Cell*> referenced_сells_;            // Связанные ячейки
 };
