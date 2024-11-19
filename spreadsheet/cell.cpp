@@ -188,7 +188,7 @@ void Cell::Clear() {
     if (dependent_сells_.empty()) {
         impl_ = std::make_unique<EmptyImpl>();
     } else {
-        throw std::runtime_error("Cannot clear cell");
+        Set("");
     }    
 }
 
