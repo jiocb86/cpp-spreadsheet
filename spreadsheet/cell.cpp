@@ -184,12 +184,8 @@ void Cell::Set(std::string text) {
     UpdateDependencies(true);
 }
 
-void Cell::Clear() {
-    if (dependent_сells_.empty()) {
-        impl_ = std::make_unique<EmptyImpl>();
-    } else {
-        Set("");
-    }    
+void Cell::Clear() { 
+    Set("");
 }
 
 Cell::Value Cell::GetValue() const {
